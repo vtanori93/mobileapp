@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAppDispatch } from "../../store/hooks";
 import { fetchFlightsByNumber } from "../viewmodels/flightSlice";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 type FormValues = { flightNumber: string };
 
@@ -12,34 +13,36 @@ export default function SearchByNumberScreen() {
   const { control, handleSubmit } = useForm<FormValues>({ defaultValues: { flightNumber: "" } });
   const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
+  const { t } = useTranslation();
 
   const onSubmit = async ({ flightNumber }: FormValues) => {
     const action = await dispatch(fetchFlightsByNumber(flightNumber));
+
     if (fetchFlightsByNumber.fulfilled.match(action)) {
       const flights = action.payload ?? [];
       if (flights.length === 0) {
-        Alert.alert("Sin resultados", "No se encontró un vuelo con ese número.");
+        Alert.alert(t("alerts.no_results_title"), t("alerts.no_results_message"));
       } else {
         navigation.navigate("FlightList");
       }
     } else {
-      Alert.alert("Error", "No se pudo consultar el vuelo.");
+      Alert.alert(t("alerts.error_title"), t("alerts.error_message"));
     }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>Buscar por número de vuelo</Text>
+        <Text style={styles.title}>{t("searchNumber.title")}</Text>
 
         <Controller
           control={control}
           name="flightNumber"
-          rules={{ required: "Campo requerido" }}
+          rules={{ required: t("validation.required") }}
           render={({ field: { onChange, value } }) => (
             <TextInput
               style={styles.input}
-              placeholder="Ejemplo: AM500"
+              placeholder={t("searchNumber.placeholder")}
               autoCapitalize="characters"
               value={value}
               onChangeText={onChange}
@@ -48,7 +51,7 @@ export default function SearchByNumberScreen() {
         />
 
         <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.buttonText}>Buscar</Text>
+          <Text style={styles.buttonText}>{t("searchNumber.button")}</Text>
         </Pressable>
       </View>
     </SafeAreaView>

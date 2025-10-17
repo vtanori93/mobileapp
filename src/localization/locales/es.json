@@ -1,0 +1,40 @@
+{
+  "home": {
+    "title": "Bienvenido",
+    "byNumber": "Buscar por número de vuelo",
+    "byRoute": "Buscar por origen y destino",
+    "search_by_number": "Por número de vuelo",
+    "search_by_route": "Por origen y destino"
+  },
+  "searchNumber": {
+    "title": "Buscar por número de vuelo",
+    "placeholder": "Ejemplo: AM500",
+    "button": "Buscar"
+  },
+  "searchRoute": {
+    "title": "Buscar por origen y destino",
+    "origin_placeholder": "Origen (Ej. MEX)",
+    "destination_placeholder": "Destino (Ej. CUN)",
+    "button": "Buscar"
+  },
+  "results": {
+    "title": "Resultados de vuelos",
+    "departure": "Salida",
+    "arrival": "Llegada",
+    "status": "Estado"
+  },
+  "search": {
+    "no_results": "Sin vuelos encontrados"
+  },
+  "alerts": {
+    "no_results_title": "Sin resultados",
+    "no_results_message": "No se encontró un vuelo con ese número.",
+    "no_results_route": "No hay vuelos para esa ruta.",
+    "error_title": "Error",
+    "error_message": "No se pudo consultar el vuelo.",
+    "error_route": "No se pudo consultar la ruta."
+  },
+  "validation": {
+    "required": "Campo requerido"
+  }
+}

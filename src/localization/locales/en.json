@@ -1,0 +1,40 @@
+{
+  "home": {
+    "title": "Welcome",
+    "byNumber": "Search by Flight Number",
+    "byRoute": "Search by Route",
+    "search_by_number": "By Flight Number",
+    "search_by_route": "Search by Route"
+  },
+  "searchNumber": {
+    "title": "Search by Flight Number",
+    "placeholder": "Example: AM500",
+    "button": "Search"
+  },
+  "searchRoute": {
+    "title": "Search by Origin and Destination",
+    "origin_placeholder": "Origin (e.g. MEX)",
+    "destination_placeholder": "Destination (e.g. CUN)",
+    "button": "Search"
+  },
+  "results": {
+    "title": "Flight Results",
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "status": "Status"
+  },
+  "search": {
+    "no_results": "No flights found"
+  },
+  "alerts": {
+    "no_results_title": "No results",
+    "no_results_message": "No flight found with that number.",
+    "no_results_route": "No flights found for this route.",
+    "error_title": "Error",
+    "error_message": "Could not fetch flight data.",
+    "error_route": "Could not fetch route information."
+  },
+  "validation": {
+    "required": "Required field"
+  }
+}
