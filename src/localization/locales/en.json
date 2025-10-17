@@ -40,5 +40,8 @@
   "theme": {
     "dark_mode": "Dark Mode",
     "light_mode": "Light Mode"
+  },
+    "loading": {
+    "message": "Loading results, please wait..."
   }
 }
