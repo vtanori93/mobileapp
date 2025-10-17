@@ -2,10 +2,11 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { fetchFlightsByNumber } from "../viewmodels/flightSlice";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { colors } from "../../theme/colors"; // 🎨 paleta de colores global
 
 type FormValues = { flightNumber: string };
 
@@ -14,6 +15,11 @@ export default function SearchByNumberScreen() {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
+
+  // 🌗 Obtener el modo actual desde Redux
+  const { mode } = useAppSelector((state) => state.theme);
+  const isDark = mode === "dark";
+  const themeColors = colors[isDark ? "dark" : "light"];
 
   const onSubmit = async ({ flightNumber }: FormValues) => {
     const action = await dispatch(fetchFlightsByNumber(flightNumber));
@@ -31,9 +37,14 @@ export default function SearchByNumberScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: themeColors.background }]}
+      edges={["bottom"]}
+    >
       <View style={styles.container}>
-        <Text style={styles.title}>{t("searchNumber.title")}</Text>
+        <Text style={[styles.title, { color: themeColors.text }]}>
+          {t("searchNumber.title")}
+        </Text>
 
         <Controller
           control={control}
@@ -41,8 +52,16 @@ export default function SearchByNumberScreen() {
           rules={{ required: t("validation.required") }}
           render={({ field: { onChange, value } }) => (
             <TextInput
-              style={styles.input}
+              style={[
+                styles.input,
+                {
+                  borderColor: themeColors.border,
+                  color: themeColors.text,
+                  backgroundColor: themeColors.card,
+                },
+              ]}
               placeholder={t("searchNumber.placeholder")}
+              placeholderTextColor={themeColors.placeholder}
               autoCapitalize="characters"
               value={value}
               onChangeText={onChange}
@@ -50,8 +69,13 @@ export default function SearchByNumberScreen() {
           )}
         />
 
-        <Pressable style={styles.button} onPress={handleSubmit(onSubmit)}>
-          <Text style={styles.buttonText}>{t("searchNumber.button")}</Text>
+        <Pressable
+          style={[styles.button, { backgroundColor: themeColors.button }]}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={[styles.buttonText, { color: themeColors.buttonText }]}>
+            {t("searchNumber.button")}
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -59,10 +83,19 @@ export default function SearchByNumberScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#fff" },
+  safeArea: { flex: 1 },
   container: { flex: 1, padding: 20, justifyContent: "center" },
-  title: { fontSize: 20, fontWeight: "bold", marginBottom: 20, color: "#003366" },
-  input: { borderWidth: 1, borderColor: "#ccc", borderRadius: 8, padding: 12, marginBottom: 10 },
-  button: { backgroundColor: "#003366", padding: 14, borderRadius: 8, alignItems: "center" },
-  buttonText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
+  title: { fontSize: 20, fontWeight: "bold", marginBottom: 20 },
+  input: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 10,
+  },
+  button: {
+    padding: 14,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: { fontWeight: "bold", fontSize: 16 },
 });

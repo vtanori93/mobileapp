@@ -36,5 +36,9 @@
   },
   "validation": {
     "required": "Required field"
+  },
+  "theme": {
+    "dark_mode": "Dark Mode",
+    "light_mode": "Light Mode"
   }
 }
