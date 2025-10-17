@@ -2,24 +2,22 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { FlightRepositoryImpl } from "../../data/repositories/FlightRepositoryImpl";
 import { Flight } from "../../domain/entities/Flight";
 
-// Repositorio (fuente de datos)
+// Repositorio
 const repo = new FlightRepositoryImpl();
 
-// Estado global tipado
 interface FlightState {
   flights: Flight[];
   loading: boolean;
   error: string | null;
 }
 
-// Estado inicial
 const initialState: FlightState = {
   flights: [],
   loading: false,
   error: null,
 };
 
-// 🧩 AsyncThunk — Buscar por número de vuelo
+// 🔍 Buscar por número
 export const fetchFlightsByNumber = createAsyncThunk<Flight[], string>(
   "flights/byNumber",
   async (number: string) => {
@@ -28,7 +26,7 @@ export const fetchFlightsByNumber = createAsyncThunk<Flight[], string>(
   }
 );
 
-// 🧩 AsyncThunk — Buscar por origen y destino
+// 🔍 Buscar por origen y destino
 export const fetchFlightsByRoute = createAsyncThunk<
   Flight[],
   { origin: string; destination: string }
@@ -37,7 +35,6 @@ export const fetchFlightsByRoute = createAsyncThunk<
   return result;
 });
 
-// Slice principal
 const flightSlice = createSlice({
   name: "flights",
   initialState,
@@ -48,8 +45,8 @@ const flightSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Búsqueda por número
     builder
+      // 🔹 Por número
       .addCase(fetchFlightsByNumber.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -63,10 +60,10 @@ const flightSlice = createSlice({
       )
       .addCase(fetchFlightsByNumber.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al buscar por número";
+        state.error = action.error.message || "FETCH_NUMBER_ERROR";
       });
 
-    // Búsqueda por ruta
+    // 🔹 Por ruta
     builder
       .addCase(fetchFlightsByRoute.pending, (state) => {
         state.loading = true;
@@ -81,12 +78,10 @@ const flightSlice = createSlice({
       )
       .addCase(fetchFlightsByRoute.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error al buscar por ruta";
+        state.error = action.error.message || "FETCH_ROUTE_ERROR";
       });
   },
 });
 
-// Exportaciones
 export const { clearFlights } = flightSlice.actions;
 export default flightSlice.reducer;
-
